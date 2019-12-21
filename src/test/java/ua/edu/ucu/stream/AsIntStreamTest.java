@@ -3,6 +3,9 @@ package ua.edu.ucu.stream;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import static org.junit.Assert.*;
 
 public class AsIntStreamTest {
@@ -102,7 +105,7 @@ public class AsIntStreamTest {
 
     @Test
     public void nullFlatMap() {
-        assertArrayEquals(new int[] {}, this.stream.flatMap(x -> AsIntStream.of()).toArray());
+        assertArrayEquals(new int[] {}, this.nullStream.flatMap(x -> AsIntStream.of()).toArray());
     }
 
     @Test
@@ -123,5 +126,13 @@ public class AsIntStreamTest {
     @Test
     public void nullToArray() {
         assertArrayEquals(new int[] {}, this.nullStream.toArray());
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void next(){
+        Iterator<Integer> iter = ((AsIntStream)this.stream).getIterator();
+        for (int i = 0; i < 10; i++) {
+            iter.next();
+        }
     }
 }
