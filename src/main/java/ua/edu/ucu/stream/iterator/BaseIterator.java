@@ -1,6 +1,7 @@
 package ua.edu.ucu.stream.iterator;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class BaseIterator implements Iterator<Integer> {
 
@@ -18,6 +19,9 @@ public class BaseIterator implements Iterator<Integer> {
 
     @Override
     public Integer next() {
+        if (!this.hasNext()){
+            throw new NoSuchElementException();
+        }
         return arr[i++];
     }
 }

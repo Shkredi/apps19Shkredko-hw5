@@ -7,8 +7,8 @@ import static org.junit.Assert.*;
 
 public class AsIntStreamTest {
 
-    IntStream stream;
-    IntStream nullStream;
+    private IntStream stream;
+    private IntStream nullStream;
 
     @Before
     public void setUp() throws Exception {
@@ -61,27 +61,67 @@ public class AsIntStreamTest {
         this.nullStream.sum();
     }
 
-//    @Test
-//    public void filter() {
-//    }
-//
-//    @Test
-//    public void forEach() {
-//    }
-//
-//    @Test
-//    public void map() {
-//    }
-//
-//    @Test
-//    public void flatMap() {
-//    }
-//
-//    @Test
-//    public void reduce() {
-//    }
-//
-//    @Test
-//    public void toArray() {
-//    }
+    @Test
+    public void filter() {
+        assertArrayEquals(new int[] {1, 3, 5}, this.stream.filter(x -> x%2 == 1).toArray());
+    }
+
+    @Test
+    public void nullFilter() {
+        assertArrayEquals(new int[] {}, this.nullStream.filter(x -> x%2 == 1).toArray());
+    }
+
+    @Test
+    public void forEach() {
+        StringBuilder str = new StringBuilder();
+        this.stream.forEach(str::append);
+        assertEquals("12345", str.toString());
+    }
+
+    @Test
+    public void nullForEach() {
+        StringBuilder str = new StringBuilder();
+        this.nullStream.forEach(str::append);
+        assertEquals("", str.toString());
+    }
+
+    @Test
+    public void map() {
+        assertArrayEquals(new int[] {2,4,6,8,10}, this.stream.map(x -> 2*x).toArray());
+    }
+
+    @Test
+    public void nullMap() {
+        assertArrayEquals(new int[] {}, this.nullStream.map(x -> 2*x).toArray());
+    }
+
+    @Test
+    public void flatMap() {
+        assertArrayEquals(new int[] {2,4,6,8,10}, this.stream.flatMap(x -> AsIntStream.of(2*x)).toArray());
+    }
+
+    @Test
+    public void nullFlatMap() {
+        assertArrayEquals(new int[] {}, this.stream.flatMap(x -> AsIntStream.of()).toArray());
+    }
+
+    @Test
+    public void reduce() {
+        assertEquals(120, this.stream.reduce(1, (x, y) -> x*y));
+    }
+
+    @Test
+    public void nullReduce() {
+        assertEquals(1, this.nullStream.reduce(1, (x, y) -> x*y));
+    }
+
+    @Test
+    public void toArray() {
+        assertArrayEquals(new int[] {1,2,3,4,5}, this.stream.toArray());
+    }
+
+    @Test
+    public void nullToArray() {
+        assertArrayEquals(new int[] {}, this.nullStream.toArray());
+    }
 }
